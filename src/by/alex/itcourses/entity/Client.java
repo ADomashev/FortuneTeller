@@ -5,73 +5,65 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
+public class Client implements Comparable<Client> {
 
-public class Client implements Comparable<Client>{
-	
-	private String name;
+	private String nameClient;
 	private boolean toBeOrNotToBe = true;
-	private Predictor predictor = new Predictor();
-	private TreeMap <Date, PredictionResult>  predRes = new TreeMap();
-	
-	
+	private TreeMap<Date, PredictionResult> predRes;
+
+	public Client() {
+		predRes = new TreeMap<Date, PredictionResult>();
+	}
+
+	public Client(String name) {
+		this.nameClient = name;
+		predRes = new TreeMap<Date, PredictionResult>();
+	}
 
 	public void displayPrediction(LinkedHashMap<Prediction, PriorityQueue<Answer>> map) {
-		Set set = map.keySet();
-		Iterator itr = set.iterator();
-		while(itr.hasNext()) {
+		Iterator<Prediction> itr = map.keySet().iterator();
+		while (itr.hasNext()) {
 			System.out.println(itr.next().toString());
 		}
 	}
-	
-	private void setPredictionResult(Prediction prediction, Answer answer) {
-		Calendar calendar =Calendar.getInstance();
-		Date date = calendar.getTime();
-		PredictionResult predictionResult = new PredictionResult(prediction,answer);
-		predRes.put(date,predictionResult);
-	}
-	
-	public void askPredictor(Prediction prediction,Client client) {
-		Answer answer = predictor.predicting(prediction,client);
+
+	// change received parameter to this and add parameter predictor
+	public void askPredictor(Prediction prediction, Predictor predictor) {
+		Answer answer = predictor.predicting(prediction, this);
 		System.out.println(answer);
 		setPredictionResult(prediction, answer);
 		setToBeOrNotToBe(false);
-		
+
 	}
+
 	public Prediction choosePrediction(Set<Prediction> set) {
 		Prediction predict = null;
-		Random rand = new Random();
-		int numberAnsw = rand.nextInt(5);
-		System.out.println(numberAnsw);
-		Iterator iter = set.iterator();
-		while(numberAnsw>=0) {
-			predict = (Prediction) iter.next();
+		int numberAnsw = new Random().nextInt(5);
+		// System.out.println(numberAnsw);
+		Iterator<Prediction> iter = set.iterator();
+		while (numberAnsw >= 0) {
+			predict = iter.next();
 			numberAnsw--;
 		}
 		return predict;
 	}
 
+	private void setPredictionResult(Prediction prediction, Answer answer) {
+		Date date = Calendar.getInstance().getTime();
+		PredictionResult predictionResult = new PredictionResult(prediction, answer);
+		predRes.put(date, predictionResult);
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((predRes == null) ? 0 : predRes.hashCode());
-		return result;
+	public String getNameClient() {
+		return nameClient;
+	}
+
+	public void setNameClient(String nameClient) {
+		this.nameClient = nameClient;
 	}
 
 	public boolean isToBeOrNotToBe() {
@@ -82,18 +74,19 @@ public class Client implements Comparable<Client>{
 		this.toBeOrNotToBe = toBeOrNotToBe;
 	}
 
-	
-
-
 	@Override
 	public String toString() {
-		return "Client [name=" + name + ", toBeOrNotToBe=" + toBeOrNotToBe + ", predictor=" + predictor + ", predRes="
-				+ predRes + "]";
+		return "Client: name = " + nameClient + ", toBeOrNotToBe = " + toBeOrNotToBe + "," + "\n" + "predRes = "
+				+ predRes + " ";
 	}
 
-	public Client() {
-		super();
-		// TODO Auto-generated constructor stub
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nameClient == null) ? 0 : nameClient.hashCode());
+		result = prime * result + ((predRes == null) ? 0 : predRes.hashCode());
+		return result;
 	}
 
 	@Override
@@ -105,31 +98,23 @@ public class Client implements Comparable<Client>{
 		if (getClass() != obj.getClass())
 			return false;
 		Client other = (Client) obj;
-		if (name == null) {
-			if (other.name != null)
+		if (nameClient == null) {
+			if (other.nameClient != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!nameClient.equals(other.nameClient))
 			return false;
 		if (predRes == null) {
 			if (other.predRes != null)
 				return false;
 		} else if (!predRes.equals(other.predRes))
 			return false;
-		
-		return true;
-	}
 
-	public Client(String name) {
-		super();
-		this.name = name;
+		return true;
 	}
 
 	@Override
 	public int compareTo(Client o) {
-		// TODO Auto-generated method stub
-		return name.compareTo(o.name);
+		return nameClient.compareTo(o.nameClient);
 	}
-	
-	
-	
+
 }

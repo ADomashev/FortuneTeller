@@ -1,43 +1,49 @@
 package by.alex.itcourses.entity;
 
 public class PredictionResult {
+
 	private Prediction prediction;
-	private Answer anwer;
-	
-	
+	private Answer answer;
+
 	public PredictionResult() {
-		super();
-		// TODO Auto-generated constructor stub
+
 	}
+
 	public PredictionResult(Prediction prediction, Answer anwer) {
-		super();
 		this.prediction = prediction;
-		this.anwer = anwer;
+		this.answer = anwer;
 	}
+
 	public Prediction getPrediction() {
 		return prediction;
 	}
+
 	public void setPrediction(Prediction prediction) {
 		this.prediction = prediction;
 	}
-	public Answer getAnwer() {
-		return anwer;
+
+	public Answer getAnswer() {
+		return answer;
 	}
+
 	public void setAnwer(Answer anwer) {
-		this.anwer = anwer;
+		this.answer = anwer;
 	}
+
 	@Override
 	public String toString() {
-		return "PredictionResult [prediction=" + prediction + ", anwer=" + anwer + "]";
+		return "PredictionResult [prediction: " + prediction + ", anwer: " + answer + "]";
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((anwer == null) ? 0 : anwer.hashCode());
+		result = prime * result + ((answer == null) ? 0 : answer.hashCode());
 		result = prime * result + ((prediction == null) ? 0 : prediction.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -47,10 +53,10 @@ public class PredictionResult {
 		if (getClass() != obj.getClass())
 			return false;
 		PredictionResult other = (PredictionResult) obj;
-		if (anwer == null) {
-			if (other.anwer != null)
+		if (answer == null) {
+			if (other.answer != null)
 				return false;
-		} else if (!anwer.equals(other.anwer))
+		} else if (!answer.equals(other.answer))
 			return false;
 		if (prediction == null) {
 			if (other.prediction != null)
@@ -59,5 +65,5 @@ public class PredictionResult {
 			return false;
 		return true;
 	}
-	
+
 }

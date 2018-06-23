@@ -1,34 +1,27 @@
 package by.alex.itcourses.entity;
 
-import java.util.EnumSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 public class Prediction {
-	private String namePred;
+	
+	private String namePrediction;
 
 	public Prediction() {
-		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public Prediction(String namePred) {
-		super();
-		this.namePred = namePred;
+		this.namePrediction = namePred;
 	}
 
 	@Override
 	public String toString() {
-		return "Prediction [namePred=" + namePred + "]";
+		return  namePrediction + " ";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((namePred == null) ? 0 : namePred.hashCode());
+		result = prime * result + ((namePrediction == null) ? 0 : namePrediction.hashCode());
 		return result;
 	}
 
@@ -41,22 +34,20 @@ public class Prediction {
 		if (getClass() != obj.getClass())
 			return false;
 		Prediction other = (Prediction) obj;
-		if (namePred == null) {
-			if (other.namePred != null)
+		if (namePrediction == null) {
+			if (other.namePrediction != null)
 				return false;
-		} else if (!namePred.equals(other.namePred))
+		} else if (!namePrediction.equals(other.namePrediction))
 			return false;
 		return true;
 	}
 
 	public String getNamePred() {
-		return namePred;
+		return namePrediction;
 	}
 
 	public void setNamePred(String namePred) {
-		this.namePred = namePred;
+		this.namePrediction = namePred;
 	}
-	
-	
-	
+
 }

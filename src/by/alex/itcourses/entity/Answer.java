@@ -1,32 +1,19 @@
 package by.alex.itcourses.entity;
 
-public class Answer implements Comparable<Answer>{
+public class Answer implements Comparable<Answer> {
 	private String answer;
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public Answer() {
-		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public Answer(String answer) {
-		super();
 		this.answer = answer;
 	}
 
 	@Override
 	public String toString() {
-		return "Answer [answer=" + answer + "]";
+		return "Answer: " + answer + " ";
 	}
 
 	@Override
@@ -64,9 +51,7 @@ public class Answer implements Comparable<Answer>{
 
 	@Override
 	public int compareTo(Answer o) {
-		// TODO Auto-generated method stub
 		return answer.compareTo(o.answer);
 	}
-	
-	
+
 }

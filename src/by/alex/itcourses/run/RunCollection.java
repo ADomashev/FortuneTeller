@@ -27,7 +27,7 @@ public class RunCollection {
 		//System.out.println(setPrediction);
 		Prediction prediction = client.choosePrediction(setPrediction);
 		//System.out.println(prediction);
-		client.askPredictor(prediction, client);
+		client.askPredictor(prediction, predictor);
 		System.out.println(client);
 	}
 
