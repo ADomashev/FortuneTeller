@@ -20,7 +20,7 @@ import com.sun.jmx.remote.internal.ArrayQueue;
 
 public class Predictor {
 	
-	private LinkedHashMap<Prediction, PriorityQueue<Answer>>  predAnsw = new LinkedHashMap<Prediction, PriorityQueue<Answer>>();
+	private LinkedHashMap<Prediction, PriorityQueue<Answer>>  predAnsw = loadPrediction();
 	
 	private PriorityQueue<Client> clientQueue = new PriorityQueue<>();
 	
@@ -43,6 +43,18 @@ public class Predictor {
 		}else return false;
 	}
 	
+	public void displayPrediction() {
+		Set set = predAnsw.keySet();
+		Iterator itr = set.iterator();
+		while(itr.hasNext()) {
+			System.out.println(itr.next().toString());
+		}
+	}
+	
+	public Client nextClient () {
+		return clientQueue.poll();
+	}
+	
 	public void displayPredAndAnswers() {
 		Set<Entry<Prediction, PriorityQueue<Answer>>> entrySet = predAnsw.entrySet();
 		for (Entry<Prediction, PriorityQueue<Answer>> entry : entrySet) {
@@ -51,11 +63,18 @@ public class Predictor {
 		
 		
 	}//LinkedHashMap<Prediction, Queue<Answer>>
-	public void loadPrediction() {
+	
+	public Set<Prediction> getSetPrediction(){
+		return predAnsw.keySet();
+	}
+	
+	public LinkedHashMap<Prediction, PriorityQueue<Answer>> loadPrediction() {
+		predAnsw = new LinkedHashMap<Prediction, PriorityQueue<Answer>>();
 		for (int i = 0; i < 5; i++) {
+			
 			predAnsw.put(new Prediction("prediction"+i), loadAnswer());
 		}
-		//return predAnsw;
+		return predAnsw;
 	}
 	private PriorityQueue<Answer> loadAnswer(){
 		PriorityQueue<Answer> answ = new PriorityQueue<Answer>(10); // new ArrayQueue(5);
@@ -68,10 +87,11 @@ public class Predictor {
 	}
 	
 	public Answer predicting(Prediction prediction,Client client) {
+	//	System.out.println(prediction);
 		if(isPossible(client)) {
 		Date date = Calendar.getInstance().getTime();
-		u4et.put(date, client);
-		Queue<Answer> answer = predAnsw.get(prediction);
+		u4et.put(date, client);		
+		PriorityQueue<Answer> answer = predAnsw.get(prediction);		
 		predictionCount++;
 		return randomAnswer(answer);}
 		else {
@@ -80,13 +100,14 @@ public class Predictor {
 		}
 	}
 	
-	private Answer randomAnswer(Queue<Answer> answer) {
+	private Answer randomAnswer(PriorityQueue<Answer> answer) {
 		Answer ans = null;
 		Random rand = new Random();
 		int numberAnsw = rand.nextInt(5);
 		Iterator iter = answer.iterator();
-		while(numberAnsw>0) {
+		while(numberAnsw>=0) {
 			ans = (Answer) iter.next();
+			numberAnsw--;
 		}
 		return ans;
 	}
@@ -107,8 +128,11 @@ public class Predictor {
 		clientQueue.remove(client);
 	}
 	
-	
-	
+//	public Client randomClient() {
+//		
+//		return 
+//	}
+//	
 	
 	
 	

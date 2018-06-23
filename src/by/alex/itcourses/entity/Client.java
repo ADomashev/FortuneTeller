@@ -4,7 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -18,7 +20,7 @@ public class Client implements Comparable<Client>{
 	
 	
 
-	public void displayPrediction(LinkedHashMap<Prediction, Queue<Answer>> map) {
+	public void displayPrediction(LinkedHashMap<Prediction, PriorityQueue<Answer>> map) {
 		Set set = map.keySet();
 		Iterator itr = set.iterator();
 		while(itr.hasNext()) {
@@ -39,6 +41,18 @@ public class Client implements Comparable<Client>{
 		setPredictionResult(prediction, answer);
 		setToBeOrNotToBe(false);
 		
+	}
+	public Prediction choosePrediction(Set<Prediction> set) {
+		Prediction predict = null;
+		Random rand = new Random();
+		int numberAnsw = rand.nextInt(5);
+		System.out.println(numberAnsw);
+		Iterator iter = set.iterator();
+		while(numberAnsw>=0) {
+			predict = (Prediction) iter.next();
+			numberAnsw--;
+		}
+		return predict;
 	}
 
 
@@ -68,11 +82,14 @@ public class Client implements Comparable<Client>{
 		this.toBeOrNotToBe = toBeOrNotToBe;
 	}
 
+	
+
+
 	@Override
 	public String toString() {
-		return "Client [name=" + name + ", predRes=" + predRes + "]";
+		return "Client [name=" + name + ", toBeOrNotToBe=" + toBeOrNotToBe + ", predictor=" + predictor + ", predRes="
+				+ predRes + "]";
 	}
-
 
 	public Client() {
 		super();
