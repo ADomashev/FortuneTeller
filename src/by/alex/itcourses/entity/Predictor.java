@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
@@ -19,13 +20,13 @@ import com.sun.jmx.remote.internal.ArrayQueue;
 
 public class Predictor {
 	
-	private LinkedHashMap<Prediction, Queue<Answer>>  predAnsw = new LinkedHashMap();
+	private LinkedHashMap<Prediction, PriorityQueue<Answer>>  predAnsw = new LinkedHashMap<Prediction, PriorityQueue<Answer>>();
 	
 	private PriorityQueue<Client> clientQueue = new PriorityQueue<>();
 	
 	private HashMap<Date, Client> u4et = new HashMap<>();
 	
-	private List<Client> waitList = new ArrayList();
+	private List<Client> waitList = new ArrayList<Client>();
 	
 	private int predictionCount = 0;
 	
@@ -42,8 +43,28 @@ public class Predictor {
 		}else return false;
 	}
 	
+	public void displayPredAndAnswers() {
+		Set<Entry<Prediction, PriorityQueue<Answer>>> entrySet = predAnsw.entrySet();
+		for (Entry<Prediction, PriorityQueue<Answer>> entry : entrySet) {
+			System.out.println(entry);
+		}
+		
+		
+	}//LinkedHashMap<Prediction, Queue<Answer>>
 	public void loadPrediction() {
-		//predAnsw.put(new Prediction ("Love"), new ArrayQueue(5).add(new Answer("never")));
+		for (int i = 0; i < 5; i++) {
+			predAnsw.put(new Prediction("prediction"+i), loadAnswer());
+		}
+		//return predAnsw;
+	}
+	private PriorityQueue<Answer> loadAnswer(){
+		PriorityQueue<Answer> answ = new PriorityQueue<Answer>(10); // new ArrayQueue(5);
+		for (int i = 0; i < 5; i++) {
+			answ.add(new Answer("name"+i));
+			//System.out.println(answ.toString());
+			//answ.add(new Answer("name"+i));
+		}
+		return answ;
 	}
 	
 	public Answer predicting(Prediction prediction,Client client) {
@@ -105,9 +126,9 @@ public class Predictor {
 		this.predictionCount = predictionCount;
 	}
 
-	public LinkedHashMap<Prediction, Queue<Answer>> getPredAnsw() {
-		return predAnsw;
-	}
+//	public LinkedHashMap<Prediction, Queue<Answer>> getPredAnsw() {
+//		return predAnsw;
+//	}
 
 	public PriorityQueue<Client> getClientQueue() {
 		return clientQueue;

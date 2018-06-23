@@ -9,15 +9,15 @@ import java.util.Set;
 import java.util.TreeMap;
 
 
-public class Client {
+public class Client implements Comparable<Client>{
 	
 	private String name;
-	private int time;
 	private boolean toBeOrNotToBe = true;
 	private Predictor predictor = new Predictor();
 	private TreeMap <Date, PredictionResult>  predRes = new TreeMap();
 	
 	
+
 	public void displayPrediction(LinkedHashMap<Prediction, Queue<Answer>> map) {
 		Set set = map.keySet();
 		Iterator itr = set.iterator();
@@ -57,7 +57,6 @@ public class Client {
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((predRes == null) ? 0 : predRes.hashCode());
-		result = prime * result + time;
 		return result;
 	}
 
@@ -71,15 +70,9 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return "Client [name=" + name + ", time=" + time + ", predRes=" + predRes + "]";
+		return "Client [name=" + name + ", predRes=" + predRes + "]";
 	}
 
-	public Client(String name, int time, TreeMap<Date, PredictionResult> predRes) {
-		super();
-		this.name = name;
-		this.time = time;
-		this.predRes = predRes;
-	}
 
 	public Client() {
 		super();
@@ -105,9 +98,19 @@ public class Client {
 				return false;
 		} else if (!predRes.equals(other.predRes))
 			return false;
-		if (time != other.time)
-			return false;
+		
 		return true;
+	}
+
+	public Client(String name) {
+		super();
+		this.name = name;
+	}
+
+	@Override
+	public int compareTo(Client o) {
+		// TODO Auto-generated method stub
+		return name.compareTo(o.name);
 	}
 	
 	

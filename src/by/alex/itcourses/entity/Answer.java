@@ -1,6 +1,6 @@
 package by.alex.itcourses.entity;
 
-public class Answer {
+public class Answer implements Comparable<Answer>{
 	private String answer;
 
 	
@@ -60,6 +60,12 @@ public class Answer {
 
 	public void setAnswer(String answer) {
 		this.answer = answer;
+	}
+
+	@Override
+	public int compareTo(Answer o) {
+		// TODO Auto-generated method stub
+		return answer.compareTo(o.answer);
 	}
 	
 	
