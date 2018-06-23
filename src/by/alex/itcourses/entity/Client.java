@@ -14,6 +14,12 @@ public class Client implements Comparable<Client> {
 	private String nameClient;
 	private boolean toBeOrNotToBe = true;
 	private TreeMap<Date, PredictionResult> predRes;
+	
+	private int countHowMore;
+
+	public int getCountHowMore() {
+		return countHowMore;
+	}
 
 	public Client() {
 		predRes = new TreeMap<Date, PredictionResult>();
@@ -34,16 +40,17 @@ public class Client implements Comparable<Client> {
 	// change received parameter to this and add parameter predictor
 	public void askPredictor(Prediction prediction, Predictor predictor) {
 		Answer answer = predictor.predicting(prediction, this);
-		System.out.println(answer);
+		//System.out.println(answer);
 		setPredictionResult(prediction, answer);
 		setToBeOrNotToBe(false);
-
+		countHowMore++;
 	}
 
 	public Prediction choosePrediction(Set<Prediction> set) {
+		//System.out.println(set);
 		Prediction predict = null;
 		int numberAnsw = new Random().nextInt(5);
-		// System.out.println(numberAnsw);
+		 //System.out.println(numberAnsw);
 		Iterator<Prediction> iter = set.iterator();
 		while (numberAnsw >= 0) {
 			predict = iter.next();
