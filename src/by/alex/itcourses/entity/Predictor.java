@@ -20,7 +20,7 @@ public class Predictor {
 	private Queue<Client> clientQueue;
 	private Map<Date, Client> accountingClient;
 	private List<Client> waitList;
-	
+
 	private List<Client> randomClients;
 
 	private int predictionCount = 0;
@@ -30,26 +30,14 @@ public class Predictor {
 		clientQueue = new PriorityQueue<>();
 		accountingClient = new HashMap<>();
 		waitList = new ArrayList<Client>();
-		
-		randomClients= new ArrayList<Client>();
+
+		randomClients = new ArrayList<Client>();
 	}
 
 	public void getInLine(Client client) {
 		clientQueue.add(client);
-		
+
 		randomClients.add(client);
-	}
-
-	private void addClientToWaitList(Client client) {
-		if(!waitList.contains(client))
-		waitList.add(client);
-	}
-
-	private boolean isPossible(Client client) {
-		if (client.isToBeOrNotToBe() && predictionCount <= 10) {
-			return true;
-		} else
-			return false;
 	}
 
 	public void displayPrediction() {
@@ -62,13 +50,12 @@ public class Predictor {
 	public Client nextClient() {
 		return clientQueue.poll();
 	}
-	
+
 	public void addRandomClient() {
 		Client client = null;
 		int randomCount = new Random().nextInt(10);
-		//System.out.println(randomCount);
 		client = randomClients.get(randomCount);
-		
+
 		clientQueue.add(client);
 	}
 
@@ -91,52 +78,11 @@ public class Predictor {
 		return predAnsw;
 	}
 
-	private PriorityQueue<Answer> loadAnswer() {
-		PriorityQueue<Answer> answ = new PriorityQueue<Answer>(10);
-		for (int i = 0; i < 5; i++) {
-			answ.add(new Answer("name" + i));
-		}
-		return answ;
-	}
-//	TODO complete the exit from the program if predictionCount equal ten
+	// TODO complete the exit from the program if predictionCount equal ten
 	public Answer predicting(Prediction prediction, Client client) {
-		if(predictionCount<10) {
-			return pred(prediction,client);
-			
-		}else {System.exit(0);
-		return new Answer("enough");}
-	}
-
-	public Answer pred (Prediction prediction, Client client){
-		if (isPossible(client)) {
-			accountingPrediction(client);
-			predictionCount++;
-			return randomAnswer(getListAnswers(prediction));
-		} else {
-			predictionCount++;
-			addClientToWaitList(client);
-			return new Answer("It's not possible");
-		}
-	}
-
-	private PriorityQueue<Answer> getListAnswers(Prediction prediction) {
-		return predAnsw.get(prediction);
-	}
-
-	private Answer randomAnswer(PriorityQueue<Answer> answers) {
-		Answer answer = null;
-		int numberAnsw = new Random().nextInt(5);
-		Iterator<Answer> iter = answers.iterator();
-		while (numberAnsw >= 0) {
-			answer = iter.next();
-			numberAnsw--;
-		}
-		return answer;
-	}
-
-	private void accountingPrediction(Client client) {
-		Date date = Calendar.getInstance().getTime();
-		accountingClient.put(date, client);
+		predictionCount++;
+		accountingPrediction(client);
+		return randomAnswer(getListAnswers(prediction));
 	}
 
 	public void displayClients() {
@@ -162,7 +108,48 @@ public class Predictor {
 		}
 		clientQueue.remove(client);
 	}
-	
+
+	private void addClientToWaitList(Client client) {
+		if (!waitList.contains(client))
+			waitList.add(client);
+	}
+
+	public boolean canGetPrediction(Prediction prediction, Client client) {
+		if (!client.isToBeOrNotToBe() & predictionCount < 10) {
+			return true;
+		} else {
+			addClientToWaitList(client);
+			return false;
+		}
+	}
+
+	private PriorityQueue<Answer> loadAnswer() {
+		PriorityQueue<Answer> answ = new PriorityQueue<Answer>(10);
+		for (int i = 0; i < 5; i++) {
+			answ.add(new Answer("name" + i));
+		}
+		return answ;
+	}
+
+	private PriorityQueue<Answer> getListAnswers(Prediction prediction) {
+		return predAnsw.get(prediction);
+	}
+
+	private Answer randomAnswer(PriorityQueue<Answer> answers) {
+		Answer answer = null;
+		int numberAnsw = new Random().nextInt(5);
+		Iterator<Answer> iter = answers.iterator();
+		while (numberAnsw >= 0) {
+			answer = iter.next();
+			numberAnsw--;
+		}
+		return answer;
+	}
+
+	private void accountingPrediction(Client client) {
+		Date date = Calendar.getInstance().getTime();
+		accountingClient.put(date, client);
+	}
 
 	public int getPredictionCount() {
 		return predictionCount;
@@ -171,10 +158,6 @@ public class Predictor {
 	public void setPredictionCount(int predictionCount) {
 		this.predictionCount = predictionCount;
 	}
-
-	// public LinkedHashMap<Prediction, Queue<Answer>> getPredAnsw() {
-	// return predAnsw;
-	// }
 
 	public Queue<Client> getClientQueue() {
 		return clientQueue;

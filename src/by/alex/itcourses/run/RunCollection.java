@@ -12,25 +12,28 @@ public class RunCollection {
 		Predictor predictor = new Predictor();
 		predictor.loadPrediction();
 
-		for (int i = 0; i < 10; i++) {
-
+		for (int i = 0; i < 15; i++) {
 			predictor.getInLine(new Client("Client " + i));
 		}
-		int countClient = 0;
-		while (countClient <= 100) {
-			Client client = predictor.nextClient();
-			Set<Prediction> setPrediction = predictor.getSetPrediction();
-			Prediction prediction = client.choosePrediction(setPrediction);
-			client.askPredictor(prediction, predictor);
-			predictor.addRandomClient();
-			System.out.println();
-			System.out.println(client.getNameClient() + " How much times: " + client.getCountHowMore());
 
+		int countClient = 0;
+		while (countClient <= 15) {
+			
+			Client client = predictor.nextClient();
+			
+			Set<Prediction> setPrediction = predictor.getSetPrediction();
+			
+			Prediction prediction = client.choosePrediction(setPrediction);
+			
+			client.askPredictor(prediction, predictor);
+			
+			System.out.println();
 			try {
-				Thread.sleep(500);
+				Thread.sleep(1500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			predictor.addRandomClient();
 			countClient++;
 		}
 		System.out.println();

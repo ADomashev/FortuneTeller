@@ -1,5 +1,7 @@
 package by.alex.itcourses.entity;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -9,10 +11,12 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.Timer;
+
 public class Client implements Comparable<Client> {
 
 	private String nameClient;
-	private boolean toBeOrNotToBe = true;
+	private boolean toBeOrNotToBe = false;
 	private TreeMap<Date, PredictionResult> predRes;
 	
 	private int countHowMore;
@@ -39,18 +43,19 @@ public class Client implements Comparable<Client> {
 
 	// change received parameter to this and add parameter predictor
 	public void askPredictor(Prediction prediction, Predictor predictor) {
+		if(predictor.canGetPrediction(prediction,this)) {
 		Answer answer = predictor.predicting(prediction, this);
-		//System.out.println(answer);
 		setPredictionResult(prediction, answer);
-		setToBeOrNotToBe(false);
-		countHowMore++;
+		System.out.println(this);
+		setToBeOrNotToBe(true);
+		start();
+		countHowMore++;}
+		
 	}
 
 	public Prediction choosePrediction(Set<Prediction> set) {
-		//System.out.println(set);
 		Prediction predict = null;
 		int numberAnsw = new Random().nextInt(5);
-		 //System.out.println(numberAnsw);
 		Iterator<Prediction> iter = set.iterator();
 		while (numberAnsw >= 0) {
 			predict = iter.next();
@@ -122,6 +127,21 @@ public class Client implements Comparable<Client> {
 	@Override
 	public int compareTo(Client o) {
 		return nameClient.compareTo(o.nameClient);
+	}
+	
+	private void start() {
+		ActionListener listener = new Interval();
+		Timer timer = new Timer(1000,listener);
+		timer.start();
+	}
+	private class Interval implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			toBeOrNotToBe = false;
+			
+		}
+		
 	}
 
 }
